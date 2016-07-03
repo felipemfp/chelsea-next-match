@@ -1,0 +1,22 @@
+body {
+  text-align: center;
+}
+
+.board .dateDisplay {
+  color: #999;
+}
+
+.board .team {
+  font-size: 1.5em;
+  margin: 1em .25em;
+}
+
+.board .team img {
+  margin: 0 .5em;
+  width: 2.5em;
+  vertical-align: middle;
+}
+
+.red {
+  color: #FF3B30;
+}
