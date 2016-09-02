@@ -1,16 +1,25 @@
 body {
     text-align: center;
+    font-family: 'Ubuntu', sans-serif;
 }
+
+b {
+    font-weight: 500;
+}
+
 .board .dateDisplay {
     color: #999;
 }
+
 .board .team {
     font-size: 1.2em;
     margin: 1em .25em;
 }
+
 .board .team img {
     display: none;
 }
+
 .red {
     color: #FF3B30;
 }

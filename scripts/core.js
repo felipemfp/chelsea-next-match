@@ -1,10 +1,10 @@
 (function () {
-  var token = '41c18856748a4f86b1fd8bcd4f3b6d67';
+  var TOKEN = '41c18856748a4f86b1fd8bcd4f3b6d67';
 
   var HomeTeam = React.createClass({
     getInfo: function (url) {
       $.ajax({
-        headers: { 'X-Auth-Token': token },
+        headers: { 'X-Auth-Token': TOKEN },
         url: url,
         dataType: 'json',
         success: function(data) {
@@ -12,7 +12,6 @@
             crest: data.crestUrl,
             name: data.name
           });
-          console.log(this.props.url);
         }.bind(this),
         error: function(xhr, status, err) {
           console.error(this.props.url, status, err.toString());
@@ -33,7 +32,7 @@
     render: function () {
       return (
         <span className="team">
-          <img src={this.state.crest}></img> {this.state.name}
+          <img src={this.state.crest} /> {this.state.name}
         </span>
       );
     }
@@ -42,7 +41,7 @@
   var AwayTeam = React.createClass({
     getInfo: function (url) {
       $.ajax({
-        headers: { 'X-Auth-Token': token },
+        headers: { 'X-Auth-Token': TOKEN },
         url: url,
         dataType: 'json',
         success: function(data) {
@@ -50,7 +49,6 @@
             crest: data.crestUrl,
             name: data.name
           });
-          console.log(this.props.url);
         }.bind(this),
         error: function(xhr, status, err) {
           console.error(this.props.url, status, err.toString());
@@ -71,7 +69,7 @@
     render: function () {
       return (
         <span className="team">
-          {this.state.name} <img src={this.state.crest}></img>
+          {this.state.name} <img src={this.state.crest} />
         </span>
       );
     }
@@ -79,9 +77,10 @@
 
   var DateDisplay = React.createClass({
     render: function () {
+      var dt = moment(this.props.date);
       return (
-        <div className="dateDisplay">
-          {this.props.date ? moment(this.props.date).fromNow() : 'loading'}
+        <div className="dateDisplay" title={dt.format('LLLL')}>
+          {this.props.date ? dt.fromNow() : 'loading'}
         </div>
       );
     }
@@ -97,7 +96,7 @@
     },
     componentDidMount: function() {
       $.ajax({
-        headers: { 'X-Auth-Token': token },
+        headers: { 'X-Auth-Token': TOKEN },
         url: this.props.url,
         dataType: 'json',
         success: function(data) {
