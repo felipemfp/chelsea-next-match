@@ -86,12 +86,38 @@
     }
   });
 
+  var LastGame = React.createClass({
+    render: function(){
+      return (
+        <div className="lastGames container">
+          <h6>Check out the last results</h6>
+            {
+              this.props.lastGame.map(function(lastGame) {
+                return (
+                  <div className="row" title={moment(lastGame.date).format('LLLL')}>
+                    <div className="four columns"><b>{lastGame.homeTeamName}</b></div>
+                    <div className="four columns">
+                      <span>{lastGame.result.goalsHomeTeam}</span>
+                      <span>&nbsp;x&nbsp;</span>
+                      <span>{lastGame.result.goalsAwayTeam}</span>
+                    </div>
+                    <div className="four columns"><b>{lastGame.awayTeamName}</b></div>
+                  </div>
+                )
+              })
+            }
+        </div>
+    )
+    }
+  });
+
   var Board = React.createClass({
     getInitialState: function() {
       return {
         date: '',
         home_team_url: '',
-        away_team_url: ''
+        away_team_url: '',
+        last_game: []
       };
     },
     componentDidMount: function() {
@@ -110,6 +136,11 @@
               });
               break;
             }
+            else {
+              var last_game = this.state.last_game;
+              last_game.unshift(data.fixtures[i]);
+              this.setState({last_game: last_game.slice(0, 3)});
+            }
           }
         }.bind(this),
         error: function(xhr, status, err) {
@@ -118,12 +149,15 @@
       });
     },
     render: function () {
+      console.log(this.state.last_game);
       return (
         <section className="board">
           <DateDisplay date={this.state.date} />
           <HomeTeam url={this.state.home_team_url} />
           &nbsp;x&nbsp;
           <AwayTeam url={this.state.away_team_url} />
+          <div class="u-cf"></div>
+          <LastGame lastGame={this.state.last_game} />
         </section>
       );
     }

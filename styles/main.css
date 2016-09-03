@@ -14,10 +14,22 @@ b {
 .board .team {
     font-size: 1.2em;
     margin: 1em .25em;
+    vertical-align: middle;
 }
 
 .board .team img {
     display: none;
+}
+
+.lastGames {
+  margin: 0 auto;
+  margin-top: 3em;
+}
+
+.lastGames .row {
+  margin: 0.5em 0;
+  padding: 1em 0;
+  border-bottom: 1px #ccc dotted;
 }
 
 .red {
