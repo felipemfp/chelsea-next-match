@@ -149,7 +149,6 @@
       });
     },
     render: function () {
-      console.log(this.state.last_game);
       return (
         <section className="board">
           <DateDisplay date={this.state.date} />
