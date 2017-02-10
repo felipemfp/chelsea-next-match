@@ -163,7 +163,7 @@
   });
 
   ReactDOM.render(
-    <Board url="http://api.football-data.org/v1/teams/61/fixtures" />,
+    <Board url="https://api.football-data.org/v1/teams/61/fixtures" />,
     document.getElementById('content')
   );
 })();
