@@ -36,16 +36,15 @@
     },
 
     render () {
-      if (this.props.isHome) {
-        return (
-          <span className='team'>
-            <img src={this.state.crest} /> {this.state.name}
-          </span>
-        )
+      let crestUrl = this.state.crest
+      if (crestUrl.indexOf('http:') > -1) {
+        crestUrl = crestUrl.replace('http:', 'https:')
       }
       return (
         <span className='team'>
-          {this.state.name} <img src={this.state.crest} />
+          {this.props.isHome || this.state.name}
+          <img src={crestUrl} />
+          {this.props.isHome && this.state.name}
         </span>
       )
     }
