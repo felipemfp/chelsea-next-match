@@ -1,8 +1,8 @@
 (function () {
   const React = window.React
   const ReactDOM = window.ReactDOM
-  const $ = window.$
   const moment = window.moment
+  const axios = window.axios
 
   const TOKEN = '41c18856748a4f86b1fd8bcd4f3b6d67'
 
@@ -11,20 +11,15 @@
       if (url.indexOf('http:') > -1) {
         url = url.replace('http:', 'https:')
       }
-      $.ajax({
-        headers: { 'X-Auth-Token': TOKEN },
-        url: url,
-        dataType: 'json',
-        success: function (data) {
-          this.setState({
-            crest: data.crestUrl,
-            name: data.name
-          })
-        }.bind(this),
-        error: function (xhr, status, err) {
-          console.error(this.props.url, status, err.toString())
-        }.bind(this)
-      })
+      axios.get(url, {
+        headers: { 'X-Auth-Token': TOKEN }
+      }).then(function (response) {
+        const data = response.data
+        this.setState({
+          crest: data.crestUrl,
+          name: data.name
+        })
+      }.bind(this))
     },
     getInitialState: function () {
       return {
@@ -99,31 +94,26 @@
       }
     },
     componentDidMount: function () {
-      $.ajax({
-        headers: { 'X-Auth-Token': TOKEN },
-        url: this.props.url,
-        dataType: 'json',
-        success: function (data) {
-          for (let i = 0; i < data.count; i++) {
-            let date = data.fixtures[i].date
-            if (moment().isBefore(date)) {
-              this.setState({
-                date: date,
-                homeTeamUrl: data.fixtures[i]._links.homeTeam.href,
-                awayTeamUrl: data.fixtures[i]._links.awayTeam.href
-              })
-              break
-            } else {
-              let lastGames = this.state.lastGames
-              lastGames.unshift(data.fixtures[i])
-              this.setState({lastGames: lastGames.slice(0, 3)})
-            }
+      axios.get(this.props.url, {
+        headers: { 'X-Auth-Token': TOKEN }
+      }).then(function (response) {
+        const data = response.data
+        for (let i = 0; i < data.count; i++) {
+          let date = data.fixtures[i].date
+          if (moment().isBefore(date)) {
+            this.setState({
+              date: date,
+              homeTeamUrl: data.fixtures[i]._links.homeTeam.href,
+              awayTeamUrl: data.fixtures[i]._links.awayTeam.href
+            })
+            break
+          } else {
+            let lastGames = this.state.lastGames
+            lastGames.unshift(data.fixtures[i])
+            this.setState({lastGames: lastGames.slice(0, 3)})
           }
-        }.bind(this),
-        error: function (xhr, status, err) {
-          console.error(this.props.url, status, err.toString())
-        }.bind(this)
-      })
+        }
+      }.bind(this))
     },
     render: function () {
       return (
